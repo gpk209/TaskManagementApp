@@ -1,0 +1,18 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/CopilotSnapshots/26100667C4FC4C439B08269EC33C94C9
+/.vs/TaskManagementApp/copilot-chat/d57dca46/sessions/67061026-fcc4-434c-9b08-269ec33c94c9
+/.vs/TaskManagementApp/config/applicationhost.config
+/.vs/TaskManagementApp/CopilotIndices/17.14.1147.5054
+/TaskManagementApp.Api/bin/Debug/net8.0
+/TaskManagementApp.Api.Host/bin/Debug/net8.0
+/TaskManagementApp.Api.Host/obj
+/TaskManagementApp.Core/bin/Debug/net8.0
+/TaskManagementApp.Core/obj
+/TaskManagementApp.Infrastructure/bin/Debug/net8.0
+/TaskManagementApp.Services/bin/Debug/net8.0
+/TaskManagementApp.Services/obj
+/.vs
+/ClientApp/.vscode

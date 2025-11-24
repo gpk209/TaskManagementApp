@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Task Management App</a>
+
+
+        <div ngbDropdown class="dropdown" *ngIf="accoutnService.currentUser$ | async">
+            <a ngbDropdownToggle class="dropdown-toggle text-light text-decoration-none user-dropdown">Welcome user</a>
+            <div ngbDropdownMenu class="dropdown-menu">
+                <a ngbDropdownItem class="dropdown-item logout-item" (click)="logout()">Logout</a>
+            </div>
+        </div>
+
+        <div *ngIf="!(accoutnService.currentUser$ | async)">
+            <form class="d-flex" (ngSubmit)="login()" autocomplete="off">
+                <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text"
+                    placeholder="Username">
+                <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password"
+                    placeholder="Password">
+                <button class="btn btn-outline-success" type="submit">Login</button>
+            </form>
+            <div class="alert alert-danger mt-2 mb-0" role="alert" *ngIf="errorMessage">
+                {{errorMessage}}
+            </div>
+        </div>
+    </div>
+</nav>

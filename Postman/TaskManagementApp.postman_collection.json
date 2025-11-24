@@ -1,0 +1,143 @@
+{
+  "info": {
+    "name": "TaskManagementApp API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for TaskManagementApp (.NET 8) backend APIs. Includes auth and task CRUD endpoints."
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/auth/register", "host": ["{{baseUrl}}"], "path": ["api","auth","register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"alice\",\n  \"password\": \"P@ssw0rd!\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"alice\",\n  \"password\": \"P@ssw0rd!\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  try {",
+                  "    const data = pm.response.json();",
+                  "    if (data.token) {",
+                  "      pm.collectionVariables.set('jwt', data.token);",
+                  "      pm.collectionVariables.set('username', data.username);",
+                  "      console.log('JWT stored in collection variables');",
+                  "    }",
+                  "  } catch(e) { console.error(e); }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "List Tasks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/task?status=Pending&priority=Medium",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","task"],
+              "query": [
+                {"key":"status","value":"Pending"},
+                {"key":"priority","value":"Medium"}
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Task By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {"raw": "{{baseUrl}}/api/task/1", "host": ["{{baseUrl}}"], "path": ["api","task","1"]}
+          },
+          "response": []
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{jwt}}"}
+            ],
+            "url": {"raw": "{{baseUrl}}/api/task", "host": ["{{baseUrl}}"], "path": ["api","task"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Write docs\",\n  \"description\": \"Add API examples to README\",\n  \"status\": \"Pending\",\n  \"priority\": \"Medium\",\n  \"dueDate\": \"2025-12-01T00:00:00.000Z\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Task",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{jwt}}"}
+            ],
+            "url": {"raw": "{{baseUrl}}/api/task/1", "host": ["{{baseUrl}}"], "path": ["api","task","1"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"title\": \"Write docs (updated)\",\n  \"description\": \"Expanded README examples\",\n  \"status\": \"Completed\",\n  \"priority\": \"High\",\n  \"dueDate\": \"2025-12-02T00:00:00.000Z\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{jwt}}"}
+            ],
+            "url": {"raw": "{{baseUrl}}/api/task/1", "host": ["{{baseUrl}}"], "path": ["api","task","1"]}
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "https://localhost:7237" },
+    { "key": "jwt", "value": "" },
+    { "key": "username", "value": "" }
+  ]
+}
