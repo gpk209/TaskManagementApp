@@ -29,7 +29,7 @@ export class AppComponent {
     },
     background: {
         color: {
-            value: "#9ea10dff",
+            value: "#ffffff",
         },
     },
     fpsLimit: 120,

@@ -16,3 +16,6 @@
 /TaskManagementApp.Services/obj
 /.vs
 /ClientApp/.vscode
+/TaskManagementApp.Api/obj/Debug/net8.0
+/TaskManagementApp.Api.Host/taskmanagementapp.db
+/TaskManagementApp.Infrastructure/obj/Debug/net8.0
