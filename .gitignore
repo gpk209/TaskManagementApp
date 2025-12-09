@@ -19,3 +19,5 @@
 /TaskManagementApp.Api/obj/Debug/net8.0
 /TaskManagementApp.Api.Host/taskmanagementapp.db
 /TaskManagementApp.Infrastructure/obj/Debug/net8.0
+/TaskManagementApp.Api.Host/taskmanagementapp.db-shm
+/TaskManagementApp.Api.Host/taskmanagementapp.db-wal

@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TaskManagementApp.Services;
+using TaskManagementApp.Services.Exceptions;
 using TaskManagementApp.Core.Entities;
+using System;
 
 namespace TaskManagementApp.Api.Controllers
 {
@@ -33,24 +35,54 @@ namespace TaskManagementApp.Api.Controllers
         public async Task<IActionResult> Create([FromBody] TaskItem dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var created = await _svc.CreateAsync(dto);
-            return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
+            
+            try
+            {
+                var created = await _svc.CreateAsync(dto);
+                return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
         }
 
         [Authorize]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] TaskItem dto)
         {
-            await _svc.UpdateAsync(id, dto);
-            return NoContent();
+            try
+            {
+                await _svc.UpdateAsync(id, dto);
+                return NoContent();
+            }
+            catch (TaskNotFoundException ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
         }
 
         [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _svc.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                await _svc.DeleteAsync(id);
+                return NoContent();
+            }
+            catch (TaskNotFoundException ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
         }
     }
 }

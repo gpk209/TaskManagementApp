@@ -54,6 +54,8 @@ namespace TaskManagementApp.Api
             });
 
             // App services
+            services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
+            services.AddScoped<ITokenService, JwtTokenService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITaskService, TaskService>();
 

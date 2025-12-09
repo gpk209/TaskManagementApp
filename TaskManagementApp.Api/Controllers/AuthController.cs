@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TaskManagementApp.Services;
+using TaskManagementApp.Services.Exceptions;
 using System;
 
 namespace TaskManagementApp.Api.Controllers
@@ -29,10 +30,12 @@ namespace TaskManagementApp.Api.Controllers
                 await _auth.RegisterAsync(dto.Username, dto.Password);
                 return Ok();
             }
-            catch (Exception ex)
+            catch (UsernameTakenException ex)
             {
-                if (ex.Message == "Username taken")
-                    return Conflict(new { error = "Username already exists" });
+                return Conflict(new { error = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
                 return BadRequest(new { error = ex.Message });
             }
         }
